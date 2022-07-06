@@ -7,7 +7,7 @@ from visualization.visUtils import plotter_netx
 def random_visualizer(cls=0):
 
 
-    pathsLst = ['dataset/OUAT_DS/Bioreactor', 'dataset/OUAT_DS/Mixer', 'dataset/OUAT_DS/Connexion2']
+    pathsLst = ['../data/raw/Bioreactor', '../data/raw/Mixer', '../data/raw/Connexion']
 
     Fpath = pathsLst[cls]
     gfiles = listdir(Fpath)
