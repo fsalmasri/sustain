@@ -34,7 +34,7 @@ class OuatDataSet(Dataset):
         for idx, p in enumerate(self.raw_paths):
             gFiles = listdir(p)
             for g_idx, gfile in enumerate(tqdm(gFiles, total=len(gFiles))):
-                graph = np.load(join(self.raw_paths[0], gfile))
+                graph = np.load(join(p, gfile))
                 node_feats, edge_index = self.get_attributes(graph)
 
                 edge_index = torch.LongTensor(edge_index)
@@ -128,7 +128,7 @@ class OuatDataSet(Dataset):
             elif 'R' in node:
                 node_feats.append(nodes_embed['couplerReducer'])
             elif 'T' in node:
-                node_feats.append(nodes_embed['tubing'])
+                node_feats.append(nodes_embed['triclampConnector'])
 
         return node_feats
 

@@ -53,7 +53,6 @@ def plotter_netx(edges):
     uniques = np.unique(edges)
     mapping = names_remapping(uniques)
 
-    fig1 = plt.gcf()
     G = nx.Graph()
     G.add_nodes_from([(node, {'name': attr}) for (node, attr) in mapping.items()])
     G.add_edges_from(edges)
@@ -69,9 +68,6 @@ def plotter_netx(edges):
     nx.draw(G, labels=labels, with_labels=True, font_size=22, node_size=800, node_color=c_colors,
             font_color="whitesmoke")  # , node_size=1000 , font_weight='bold'
 
-    # plt.savefig(f'imgs/{c}.png')
-    # plt.clf()
-    plt.show()
 
+    return 0
 
-plotter_netx
