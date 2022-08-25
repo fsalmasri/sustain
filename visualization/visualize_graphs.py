@@ -45,5 +45,5 @@ def visualize_graph(cls=0, g_id=0):
     plt.show()
 
 
-random_visualizer(2)
+random_visualizer(3, 250)
 # visualize_graph(2, 'm_442353')
