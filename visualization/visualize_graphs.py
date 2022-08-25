@@ -5,25 +5,32 @@ import random
 from visualization.visUtils import plotter_netx
 import matplotlib.pyplot as plt
 
-pathsLst = ['../data/raw/Bioreactor.v2', '../data/raw/Mixer', '../data/raw/Connexion.v2']
+pathsLst = ['../data/raw/Bioreactor.v2', '../data/raw/Mixer', '../data/raw/Connexion.v2', '../data/raw/Sanofi']
 
 
-def random_visualizer(cls=0):
+def random_visualizer(cls=0, n_imgs=10):
+    '''
+    :param cls: Class ID for the desired generated graphs
+    :param c: Number of desired images to be saved
+    :return:
+    '''
+
+    dst_dir = f'imgs.v2/{cls}'
+    if not os.path.exists(dst_dir):
+        os.makedirs(dst_dir)
 
     Fpath = pathsLst[cls]
     gfiles = listdir(Fpath)
     random.shuffle(gfiles)
 
-    # fig = plt.gcf()
     for c, graph in enumerate(gfiles):
         edges = np.load(join(Fpath, graph))
 
         plotter_netx(edges)
-        c+=1
         plt.savefig(f'imgs.v2/{cls}/{graph[:-4]}.png')
         plt.clf()
 
-        if c == 20:
+        if c == n_imgs:
             break
 
 

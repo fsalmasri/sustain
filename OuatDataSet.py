@@ -119,7 +119,7 @@ class OuatDataSet(Dataset):
                 node_feats.append(nodes_embed['plug'])
             elif 'A' in node:
                 node_feats.append(nodes_embed['asepticConnector'])
-            if 'D' in node:
+            elif 'D' in node:
                 node_feats.append(nodes_embed['asepticDisconnector'])
             elif 'S' in node:
                 node_feats.append(nodes_embed['straightFitting'])
