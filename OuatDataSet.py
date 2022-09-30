@@ -1,3 +1,4 @@
+import os
 import os.path as osp
 from os.path import isfile, join
 from os import listdir
@@ -16,15 +17,36 @@ class OuatDataSet(Dataset):
         :param pre_transform:
         :param pre_filter:
         """
+
+
+        if os.path.exists(r'data/processed'):
+            self.ordered_files = [x for x in os.listdir(r'data/processed') if '.pt' in x]
+        else:
+            self.ordered_files = None
+
         super().__init__(root, transform, pre_transform, pre_filter)
+
+        # self.processed_file_names(root)
 
     @property
     def raw_file_names(self):
         return ['Bioreactor', 'Mixer', 'Connexion']
 
+    # @property
+    # def processed_paths(self):
+    #     r"""The filepaths to find in order to skip the processing."""
+    #     return [join(self.processed_dir, f) for f in self.processed_file_names]
+
     @property
     def processed_file_names(self):
-        return 'sustain.dataset'
+        return self.ordered_files
+
+    # @processed_file_names.setter
+    # def processed_file_names(self, root):
+    #     if os.path.exists(r'data/processed'):
+    #         self.ordered_files = [x for x in os.listdir(r'data/processed') if '.pt' in x]
+    #     else:
+    #         self.ordered_files = None
 
     def download(self):
         # path = download_url(url, self.raw_dir)
@@ -39,20 +61,18 @@ class OuatDataSet(Dataset):
 
                 edge_index = torch.LongTensor(edge_index)
                 node_feats = torch.LongTensor(node_feats)
-                y = torch.FloatTensor(idx)
+                y = torch.FloatTensor([idx])
 
                 data = Data(x=node_feats, edge_index=edge_index, y=y, graph=graph)
                 torch.save(data, osp.join(self.processed_dir, f'data_{idx}_{g_idx}.pt'))
 
 
     def len(self):
-        pass
-        # return len(self.processed_file_names)
+        return len(self.processed_file_names)
 
     def get(self, idx):
-        pass
-        # data = torch.load(osp.join(self.processed_dir, f'data_{idx}.pt'))
-        # return data
+        data = torch.load(osp.join(self.processed_dir, f'{self.processed_file_names[idx]}'))
+        return data
 
     def get_attributes(self, g):
 
@@ -132,4 +152,3 @@ class OuatDataSet(Dataset):
 
         return node_feats
 
-dataset = OuatDataSet('data/')
